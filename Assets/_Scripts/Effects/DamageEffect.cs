@@ -1,4 +1,6 @@
+using System;
 using Sirenix.OdinInspector;
+using SunsetSystems.VisualEffects;
 using UnityEngine;
 
 namespace SunsetSystems.Effects
@@ -6,12 +8,20 @@ namespace SunsetSystems.Effects
     [CreateAssetMenu(fileName = "New Damage Effect", menuName = "Effects/Damage Effect")]
     public class DamageEffect : SerializedScriptableObject, IEffect
     {
+        [field: SerializeField, ReadOnly]
+        public string ID { get; private set; } = Guid.NewGuid().ToString();
         [field: SerializeField]
         public float Duration { get; private set; }
         [field: SerializeField]
-        public GameObject VisualsPrefab { get; private set; }
+        public IVisualEffect VisualsPrefab { get; private set; }
         [field: SerializeField]
         public EffectTarget Target { get; private set; }
+
+        private void OnValidate()
+        {
+            if (string.IsNullOrWhiteSpace(ID))
+                ID = Guid.NewGuid().ToString();
+        }
 
         public void ApplyEffect(EffectContext context)
         {

@@ -4,8 +4,8 @@ namespace SunsetSystems.VisualEffects
 {
     public interface IVisualEffectHandler
     {
-        void HandleVisualEffect(GameObject visualEffectPrefab, IVisualEffectSource source, float visualEffectDuration);
+        void HandleVisualEffect(IVisualEffect visualEffectPrefab, IVisualEffectSource source, float visualEffectDuration);
 
-        void CancelEffect(IVisualEffectSource source, GameObject prefab);
+        void CancelEffect(IVisualEffectSource source, IVisualEffect instance);
     }
 }
