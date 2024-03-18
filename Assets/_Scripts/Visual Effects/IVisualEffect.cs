@@ -6,7 +6,7 @@ namespace SunsetSystems.VisualEffects
 {
     public interface IVisualEffect
     {
-        string ID { get; }
+        string InstanceID { get; }
         GameObject GameObject { get; }
         VisualEffectParent ParentingType { get; }
 

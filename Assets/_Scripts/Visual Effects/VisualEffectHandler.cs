@@ -9,6 +9,7 @@ namespace SunsetSystems.VisualEffects
         [SerializeField, Required]
         private Transform _effectFollowParent;
 
+        [ShowInInspector]
         private Dictionary<string, VisualEffectData> _activeVisualEffects = new();
 
         public void HandleVisualEffect(IVisualEffect visualEffectPrefab, IVisualEffectSource source, float visualEffectDuration)
@@ -57,7 +58,7 @@ namespace SunsetSystems.VisualEffects
         {
             if (_activeVisualEffects.TryGetValue(source.ID, out var effectData))
             {
-                effectData.DestroyEffectInstance(effectInstance.ID);
+                effectData.DestroyEffectInstance(effectInstance.InstanceID);
             }
         }
 
@@ -71,12 +72,12 @@ namespace SunsetSystems.VisualEffects
             {
                 var instanceData = new VisualEffectInstanceData()
                 {
-                    InstanceID = effectInstance.ID,
+                    InstanceID = effectInstance.InstanceID,
                     EffectInstance = effectInstance.GameObject,
                     EffectStartTimestamp = time,
                     EffectDuration = duration
                 };
-                _effectInstances.Add(effectInstance.ID, instanceData);
+                _effectInstances.Add(effectInstance.InstanceID, instanceData);
             }
 
             public void DestroyEffectInstance(string instanceID)

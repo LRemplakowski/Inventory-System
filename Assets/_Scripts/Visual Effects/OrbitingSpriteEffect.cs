@@ -6,8 +6,10 @@ namespace SunsetSystems.VisualEffects
 {
     public class OrbitingSpriteEffect : SerializedMonoBehaviour, IVisualEffect, IOrbital
     {
+        [ShowInInspector, ReadOnly]
+        public string InstanceID => GetInstanceID().ToString();
         [field: SerializeField, ReadOnly]
-        public string ID { get; private set; }
+        public string EffectID { get; private set; }
         [SerializeField]
         private float _selfDuration = 0;
         [field: SerializeField]
@@ -23,8 +25,8 @@ namespace SunsetSystems.VisualEffects
 
         private void OnValidate()
         {
-            if (string.IsNullOrWhiteSpace(ID))
-                ID = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(EffectID))
+                EffectID = Guid.NewGuid().ToString();
         }
 
         private void OnDestroy()
@@ -39,9 +41,9 @@ namespace SunsetSystems.VisualEffects
 
         public void SetFollowTransform(Transform follow)
         {
+            _orbitalManager = OrbitalEffectManager.GetManagerForTransfrom(follow);
             OrbitalTransform.SetParent(_orbitalManager.transform);
             OrbitalTransform.position = _orbitalManager.transform.position;
-            _orbitalManager = OrbitalEffectManager.GetManagerForTransfrom(follow);
             _orbitalManager.AddOrbital(this);
             _orbitalManager.OrbitalSpinSpeed = RotationSpeed;
         }

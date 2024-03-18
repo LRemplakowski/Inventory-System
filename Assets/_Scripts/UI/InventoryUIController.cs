@@ -13,6 +13,8 @@ namespace SunsetSystems.UI
         [SerializeField, Required, SceneObjectsOnly]
         private InventoryManager _playerInventory;
         [SerializeField, Required, SceneObjectsOnly]
+        private ItemConsumer _itemConsumer;
+        [SerializeField, Required, SceneObjectsOnly]
         private Transform _viewParent;
         [SerializeField, Required, AssetsOnly]
         private ItemView _itemViewPrefab;
@@ -89,7 +91,10 @@ namespace SunsetSystems.UI
 
         public void OnItemUsed(IBaseItem item)
         {
-
+            if (_itemConsumer.UseItem(item))
+                _playerInventory.RemoveItem(item);
+            else
+                Debug.LogError($"Item {item} is not IConsumable! It cannot be used!");
         }
     }
 }

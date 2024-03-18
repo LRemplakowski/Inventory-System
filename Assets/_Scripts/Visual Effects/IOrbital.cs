@@ -6,7 +6,7 @@ namespace SunsetSystems.VisualEffects
 {
     public interface IOrbital
     {
-        string ID { get; }
+        string EffectID { get; }
         Transform OrbitalTransform { get; }
         float RotationOffset { get; }
         float RotationSpeed { get; }

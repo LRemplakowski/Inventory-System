@@ -9,6 +9,7 @@ namespace SunsetSystems.VisualEffects
 {
     public class OrbitalEffectManager : MonoBehaviour
     {
+        [ShowInInspector, ReadOnly]
         private static readonly Dictionary<Transform, OrbitalEffectManager> _orbitalManagers = new();
 
         [ShowInInspector, ReadOnly]
@@ -25,16 +26,22 @@ namespace SunsetSystems.VisualEffects
 
         public void AddOrbital(IOrbital orbital)
         {
-            if (_orbitalEffects.TryGetValue(orbital.ID, out List<IOrbital> orbitals))
+            if (_orbitalEffects.TryGetValue(orbital.EffectID, out List<IOrbital> orbitals))
             {
                 orbitals.Add(orbital);
-                ArrangeOrbitals();
             }
+            else
+            {
+                orbitals = new();
+                orbitals.Add(orbital);
+                _orbitalEffects[orbital.EffectID] = orbitals;
+            }
+            ArrangeOrbitals();
         }
 
         public void RemoveOrbital(IOrbital orbital)
         {
-            if (_orbitalEffects.TryGetValue(orbital.ID, out List<IOrbital> orbitals))
+            if (_orbitalEffects.TryGetValue(orbital.EffectID, out List<IOrbital> orbitals))
             {
                 orbitals.Remove(orbital);
                 ArrangeOrbitals();
@@ -49,7 +56,7 @@ namespace SunsetSystems.VisualEffects
                 for (int i = 0; i < orbitals.Count; i++)
                 {
                     var orbital = orbitals[i];
-                    orbital.OrbitalTransform.localRotation = Quaternion.Euler(0, i * orbital.RotationOffset, 0);
+                    orbital.OrbitalTransform.localRotation = Quaternion.Euler(0, (360f / orbitals.Count) * i, 0);
                 }
             }
         }
@@ -61,6 +68,8 @@ namespace SunsetSystems.VisualEffects
 
         public static OrbitalEffectManager GetManagerForTransfrom(Transform transform)
         {
+            if (transform == null)
+                return null;
             if (_orbitalManagers.TryGetValue(transform, out OrbitalEffectManager result))
             {
                 return result;
