@@ -12,6 +12,21 @@ namespace SunsetSystems.VisualEffects
         [ShowInInspector]
         private Dictionary<string, VisualEffectData> _activeVisualEffects = new();
 
+        private readonly List<string> _removeSourceIDs = new();
+
+        private void Update()
+        {
+            foreach (string key in _activeVisualEffects.Keys)
+            {
+                var effectData = _activeVisualEffects[key];
+                effectData.UpdateEffects();
+                if (effectData.HasActiveInstances() is false)
+                    _removeSourceIDs.Add(key);
+            }
+            _removeSourceIDs.ForEach(key => _activeVisualEffects.Remove(key));
+            _removeSourceIDs.Clear();
+        }
+
         public void HandleVisualEffect(IVisualEffect visualEffectPrefab, IVisualEffectSource source, float visualEffectDuration)
         {
             Transform effectParent = null;
@@ -97,6 +112,11 @@ namespace SunsetSystems.VisualEffects
                         _instancesToRemove.Add(effectInstance);
                 }
                 DeleteDeadInstances();
+            }
+
+            public bool HasActiveInstances()
+            {
+                return _effectInstances.Count > 0;
             }
 
             private void DeleteDeadInstances()
