@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace SunsetSystems.VisualEffects
 {
@@ -8,8 +9,13 @@ namespace SunsetSystems.VisualEffects
     {
         [SerializeField, Required]
         private Transform _effectFollowParent;
+        [SerializeField, Required]
+        private VolumeProfile _cameraVolumeProfile;
+        [SerializeField, Required]
+        private Transform _playerCameraRig;
 
-        [ShowInInspector]
+
+        [ShowInInspector, ReadOnly]
         private Dictionary<string, VisualEffectData> _activeVisualEffects = new();
 
         private readonly List<string> _removeSourceIDs = new();
@@ -29,6 +35,11 @@ namespace SunsetSystems.VisualEffects
 
         public void HandleVisualEffect(IVisualEffect visualEffectPrefab, IVisualEffectSource source, float visualEffectDuration)
         {
+            if (visualEffectPrefab == null)
+            {
+                Debug.LogError($"VFX Handler recieved a null VFX prefab! Source: {source}");
+                return;
+            }
             Transform effectParent = null;
             switch (visualEffectPrefab.ParentingType)
             {
@@ -38,11 +49,27 @@ namespace SunsetSystems.VisualEffects
                     effectParent = _effectFollowParent;
                     break;
             }
+            if (visualEffectPrefab.AllowOnlySingleInstance)
+            {
+                if (_activeVisualEffects.TryGetValue(source.ID, out VisualEffectData data))
+                {
+                    data.AddInstanceLifetime(visualEffectDuration);
+                }
+            }
             // For test task should work okay, in work enviroment should be replaced with object pooling.
             GameObject instanceGO = Instantiate(visualEffectPrefab.GameObject);
             if (instanceGO.TryGetComponent(out IVisualEffect effectInstance))
             {
-                effectInstance.SetFollowTransform(effectParent);
+                effectInstance.Initialize(new()
+                {
+                    FollowTransform = effectParent,
+                    Duration = visualEffectDuration,
+                    Position = _effectFollowParent.position,
+                    VolumeProfile = _cameraVolumeProfile,
+                    SelfGovernDuration = visualEffectDuration > 0,
+                    PlayerCameraRig = _playerCameraRig,
+                    CoroutineRunner = this
+                });
                 if (visualEffectDuration > 0)
                 {
                     if (_activeVisualEffects.TryGetValue(source.ID, out VisualEffectData effectData))
@@ -55,11 +82,6 @@ namespace SunsetSystems.VisualEffects
                         effectData.AddEffectInstance(effectInstance, Time.time, visualEffectDuration);
                         _activeVisualEffects[source.ID] = effectData;
                     }
-                }
-                else
-                {
-                    // Effects with duration of 0 are Instantiate-and-Forget.
-                    effectInstance.SelfGovernDuration();
                 }
             }
             else
@@ -89,6 +111,7 @@ namespace SunsetSystems.VisualEffects
                 {
                     InstanceID = effectInstance.InstanceID,
                     EffectInstance = effectInstance.GameObject,
+                    VisualEffectScript = effectInstance,
                     EffectStartTimestamp = time,
                     EffectDuration = duration
                 };
@@ -128,11 +151,21 @@ namespace SunsetSystems.VisualEffects
                 }
                 _instancesToRemove.Clear();
             }
+
+            public void AddInstanceLifetime(float addedTime)
+            {
+                foreach (var instanceData in _effectInstances.Values)
+                {
+                    instanceData.EffectDuration += addedTime;
+                    instanceData.VisualEffectScript.AddDuration(addedTime);
+                }
+            }
             
             public class VisualEffectInstanceData
             {
                 public string InstanceID;
                 public GameObject EffectInstance;
+                public IVisualEffect VisualEffectScript;
                 public float EffectStartTimestamp;
                 public float EffectDuration;
 

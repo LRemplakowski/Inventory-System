@@ -13,12 +13,12 @@ namespace SunsetSystems.UI
 
         private void OnEnable()
         {
-            InputManager.OnInventory += ToggleInventory;
+            Input.PlayerInputHandler.OnInventory += ToggleInventory;
         }
 
         private void OnDisable()
         {
-            InputManager.OnInventory -= ToggleInventory;
+            Input.PlayerInputHandler.OnInventory -= ToggleInventory;
         }
 
         private void ToggleInventory(InputAction.CallbackContext context)

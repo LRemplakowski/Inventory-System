@@ -7,11 +7,13 @@ namespace SunsetSystems.VisualEffects
     public interface IVisualEffect
     {
         string InstanceID { get; }
+        bool AllowOnlySingleInstance { get; }
         GameObject GameObject { get; }
         VisualEffectParent ParentingType { get; }
 
-        void SelfGovernDuration();
-        void SetFollowTransform(Transform follow);
+        void Initialize(VisualEffectContext context);
+
+        void AddDuration(float duration);
     }
 
     public enum VisualEffectParent

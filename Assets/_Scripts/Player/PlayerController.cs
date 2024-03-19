@@ -1,10 +1,11 @@
 using Sirenix.OdinInspector;
+using SunsetSystems.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace SunsetSystems.Player
 {
-    public class PlayerInputHandler : SerializedMonoBehaviour
+    public class PlayerController : SerializedMonoBehaviour
     {
         [Title("References")]
         [SerializeField, Required]
@@ -19,6 +20,16 @@ namespace SunsetSystems.Player
         [Title("Runtime")]
         [ShowInInspector, ReadOnly]
         private Vector2 _playerMoveVector = Vector2.zero;
+
+        private void OnEnable()
+        {
+            PlayerInputHandler.OnMove += OnMoveAction;
+        }
+
+        private void OnDisable()
+        {
+            PlayerInputHandler.OnMove -= OnMoveAction;
+        }
 
         private void Update()
         {

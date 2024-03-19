@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace SunsetSystems.Input
 {
-    public class InputManager : MonoBehaviour
+    public class PlayerInputHandler : MonoBehaviour
     {
         [SerializeField]
         private PlayerInput _input;

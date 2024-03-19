@@ -15,15 +15,16 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 4178841339738418720, guid: 183caac7d59be7c42ad89ae7a190695d, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
     - Name: <VisualsPrefab>k__BackingField
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
   <ID>k__BackingField: 76b7db1a-a097-49e7-9210-5c318087c9de
   <Duration>k__BackingField: 0
   <Target>k__BackingField: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,8 +11,6 @@ namespace SunsetSystems.VisualEffects
         public string InstanceID => GetInstanceID().ToString();
         [field: SerializeField, ReadOnly]
         public string EffectID { get; private set; }
-        [SerializeField]
-        private float _selfDuration = 0;
         [field: SerializeField]
         public float RotationOffset { get; private set; } = 15f;
         [field: SerializeField]
@@ -21,7 +20,15 @@ namespace SunsetSystems.VisualEffects
         public Transform OrbitalTransform => this.transform;
         public VisualEffectParent ParentingType => VisualEffectParent.Handler;
 
+        public bool AllowOnlySingleInstance => false;
+
+        [Title("Runtime")]
+        [ShowInInspector]
+        private VisualEffectContext _cachedContext;
+        [ShowInInspector]
         private OrbitalEffectManager _orbitalManager;
+
+        private float _selfDestructTime;
 
         private void OnValidate()
         {
@@ -36,16 +43,40 @@ namespace SunsetSystems.VisualEffects
 
         public void SelfGovernDuration()
         {
-            Destroy(gameObject, _selfDuration);
+            _selfDestructTime = _cachedContext.Duration;
+            _cachedContext.CoroutineRunner.StartCoroutine(SelfDestructAfterTime());
         }
 
-        public void SetFollowTransform(Transform follow)
+        private IEnumerator SelfDestructAfterTime()
         {
-            _orbitalManager = OrbitalEffectManager.GetManagerForTransfrom(follow);
+            while (_selfDestructTime > 0)
+            {
+                _selfDestructTime -= Time.deltaTime;
+                yield return null;
+            }
+            Destroy(gameObject);
+        }
+
+        public void Initialize(VisualEffectContext context)
+        {
+            if (context.FollowTransform == null)
+            {
+                Debug.LogError("Orbiting Sprite effect requires a follow transform!");
+                return;
+            }
+            _cachedContext = context;
+            _orbitalManager = OrbitalEffectManager.GetManagerForTransfrom(context.FollowTransform);
             OrbitalTransform.SetParent(_orbitalManager.transform);
             OrbitalTransform.position = _orbitalManager.transform.position;
             _orbitalManager.AddOrbital(this);
             _orbitalManager.OrbitalSpinSpeed = RotationSpeed;
+            if (context.SelfGovernDuration)
+                SelfGovernDuration();
+        }
+
+        public void AddDuration(float duration)
+        {
+            _selfDestructTime += duration;
         }
     }
 }
