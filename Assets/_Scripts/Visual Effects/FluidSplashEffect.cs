@@ -42,12 +42,14 @@ namespace SunsetSystems.VisualEffects
                 _selfDestructTime -= Time.deltaTime;
                 yield return null;
             }
-            Destroy(gameObject);
+            if (gameObject != null)
+                Destroy(gameObject);
         }
 
         private void OnDestroy()
         {
-            _cachedContext.CoroutineRunner.StopCoroutine(_splashLifetimeCoroutine);
+            if (_cachedContext.CoroutineRunner != null && _splashLifetimeCoroutine != null)
+                _cachedContext.CoroutineRunner.StopCoroutine(_splashLifetimeCoroutine);
         }
 
         public void Initialize(VisualEffectContext context)

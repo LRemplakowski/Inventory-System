@@ -54,7 +54,8 @@ namespace SunsetSystems.VisualEffects
                 _selfDestructTime -= Time.deltaTime;
                 yield return null;
             }
-            Destroy(gameObject);
+            if (gameObject != null)
+                Destroy(gameObject);
         }
 
         public void Initialize(VisualEffectContext context)
