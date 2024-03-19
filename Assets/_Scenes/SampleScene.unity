@@ -354,6 +354,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 9135ad786b8abe9459b944442346d42d, type: 2}
     - {fileID: 11400000, guid: ecd371f948d80d843bbd7d99c397c7de, type: 2}
+    - {fileID: 11400000, guid: c317b6f99720d2349adc1a956d5c0418, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -373,7 +374,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -407,6 +408,27 @@ MonoBehaviour:
     - Name: Item
       Entry: 10
       Data: 1
+    - Name: StackSize
+      Entry: 3
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: SunsetSystems.Inventory.InventoryEntry, Assembly-CSharp
+    - Name: Item
+      Entry: 10
+      Data: 2
     - Name: StackSize
       Entry: 3
       Data: 10
@@ -1162,7 +1184,7 @@ MonoBehaviour:
   _effectFollowParent: {fileID: 1280841260}
   _cameraVolumeProfile: {fileID: 11400000, guid: 69b70a9ae63a336409664f97563a1f04,
     type: 2}
-  _playerCameraRig: {fileID: 0}
+  _playerCameraRig: {fileID: 1419773703}
 --- !u!1 &1294586331
 GameObject:
   m_ObjectHideFlags: 0

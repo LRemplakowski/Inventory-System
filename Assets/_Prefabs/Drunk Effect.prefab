@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -55,15 +55,67 @@ MonoBehaviour:
     SerializationNodes: []
   _defaultRestoreTime: 1
   _lensDistortionSettings:
-    IntensityRange: {x: -0.58240056, y: 0.24353528}
+    IntensityRange: {x: -0.25, y: 0.25}
     IntensityLerpSpeed: 1
     XMultiplierRange: {x: 0.25, y: 0.75}
-    XMultiplierLerpSpeed: 1
+    XMultiplierLerpSpeed: 0.35
     YMultiplierRange: {x: 0.25, y: 0.75}
-    YMultiplierLerpSpeed: 1
-    CenterXRange: {x: 0.25, y: 0.75}
-    CenterXLerpSpeed: 1
-    CenterYRange: {x: 0.25, y: 0.75}
-    CenterYLerpSpeed: 1
-    ScaleRange: {x: 0.75, y: 1.25}
-    ScaleLerpSpeed: 1
+    YMultiplierLerpSpeed: 0.25
+    CenterXRange: {x: 0.45, y: 0.55}
+    CenterXLerpSpeed: 2.75
+    CenterYRange: {x: 0.45, y: 0.55}
+    CenterYLerpSpeed: 2.85
+    ScaleRange: {x: 0.95, y: 1.05}
+    ScaleLerpSpeed: 0.2
+  _paniniProjectionSettings:
+    DistanceRange: {x: 0, y: 1}
+    DistanceLerpSpeed: 0.25
+    CropToFitRange: {x: 0.5, y: 1}
+    CropToFitLerpSpeed: 0.75
+  _vignetteSettings:
+    ColorRange:
+      serializedVersion: 2
+      key0: {r: 1, g: 0, b: 0.70456123, a: 1}
+      key1: {r: 1, g: 0.6383666, b: 0, a: 1}
+      key2: {r: 0.5792446, g: 0.3843137, b: 1, a: 0}
+      key3: {r: 0.9254902, g: 0.08235295, b: 0.31337833, a: 0}
+      key4: {r: 1, g: 0, b: 0.7058824, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 15806
+      ctime2: 33346
+      ctime3: 49151
+      ctime4: 65535
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 2
+      m_ColorSpace: 0
+      m_NumColorKeys: 5
+      m_NumAlphaKeys: 2
+    ColorLerpSpeed: 0.5
+    CenterXRange: {x: 0.4, y: 0.6}
+    CenterXLerpSpeed: 2.8
+    CenterYRange: {x: 0.4, y: 0.6}
+    CenterYLerpSpeed: 2.5
+    IntensityRange: {x: 0, y: 0.4}
+    IntensityLerpSpeed: 0.25
+    SmoothnessRange: {x: 0.2, y: 0.5}
+    SmoothnessLerpSpeed: 1
+  _cameraRigSettings:
+    XRotationRange: {x: -1, y: 1}
+    XRotationSpeed: 0.4
+    YRotationRange: {x: -1, y: 1}
+    YRotationSpeed: 0.4
+    ZRotationRange: {x: -3, y: 3}
+    ZRotationSpeed: 0.5
